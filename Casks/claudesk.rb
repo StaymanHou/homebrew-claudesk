@@ -9,6 +9,7 @@ cask "claudesk" do
 
   # Apple Silicon only — the release ships an aarch64 .dmg.
   depends_on arch: :arm64
+  depends_on macos: ">= :big_sur"
 
   app "Claudesk.app"
 
