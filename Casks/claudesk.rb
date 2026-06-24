@@ -4,12 +4,12 @@ cask "claudesk" do
 
   url "https://github.com/StaymanHou/Claudesk/releases/download/v#{version}/Claudesk_#{version}_aarch64.dmg"
   name "Claudesk"
-  desc "macOS lite-IDE for the Claude Code + Sublime workflow, with multiple virtual workspaces in one window"
+  desc "Lite-IDE for the Claude Code + Sublime workflow with virtual workspaces"
   homepage "https://github.com/StaymanHou/Claudesk"
 
   # Apple Silicon only — the release ships an aarch64 .dmg.
   depends_on arch: :arm64
-  depends_on macos: ">= :big_sur"
+  depends_on macos: :big_sur
 
   app "Claudesk.app"
 
