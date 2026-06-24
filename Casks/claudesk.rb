@@ -2,8 +2,7 @@ cask "claudesk" do
   version "0.1.0"
   sha256 "3efb36262ce1cb20a257ae28600431dd8307c3b87220fabdf638647f3f460bad"
 
-  url "https://github.com/StaymanHou/Claudesk/releases/download/v#{version}/Claudesk_#{version}_aarch64.dmg",
-      verified: "github.com/StaymanHou/Claudesk/"
+  url "https://github.com/StaymanHou/Claudesk/releases/download/v#{version}/Claudesk_#{version}_aarch64.dmg"
   name "Claudesk"
   desc "macOS lite-IDE for the Claude Code + Sublime workflow, with multiple virtual workspaces in one window"
   homepage "https://github.com/StaymanHou/Claudesk"
@@ -15,8 +14,8 @@ cask "claudesk" do
 
   # This build is UNSIGNED (no Apple Developer ID / no notarization yet).
   # macOS attaches a quarantine xattr that Gatekeeper blocks at launch.
-  # Install with `--no-quarantine` to skip it, or run the zap/xattr step below.
-  # See the tap README for the one-time clearance instructions.
+  # Homebrew 6.x removed the `--no-quarantine` install flag, so the reliable
+  # path is to install normally then clear the flag once (see caveats below).
 
   zap trash: [
     "~/Library/Application Support/com.claudesk.app",
@@ -27,7 +26,7 @@ cask "claudesk" do
 
   caveats <<~EOS
     Claudesk is an UNSIGNED build, so macOS Gatekeeper will block it on first launch.
-    If you did NOT install with `--no-quarantine`, clear the quarantine flag once:
+    Clear the quarantine flag once:
 
       xattr -dr com.apple.quarantine "#{appdir}/Claudesk.app"
 

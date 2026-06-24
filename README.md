@@ -8,30 +8,35 @@ A [Homebrew](https://brew.sh) tap for [**Claudesk**](https://github.com/StaymanH
 
 ```sh
 brew tap StaymanHou/claudesk
-brew install --cask --no-quarantine claudesk
+brew trust --cask StaymanHou/claudesk/claudesk
+brew install --cask claudesk
+xattr -dr com.apple.quarantine /Applications/Claudesk.app
 ```
 
-The `--no-quarantine` flag matters — see below.
+Three steps that matter here:
 
-## Why `--no-quarantine`?
+- **`brew trust`** — recent Homebrew versions refuse to load casks from third-party taps until you explicitly trust them (*"Refusing to load cask … from untrusted tap"*). One-time-per-tap acknowledgement that you trust this source.
+- **`brew install --cask claudesk`** — downloads the `.dmg`, checks its SHA-256, and installs `Claudesk.app` to `/Applications`.
+- **`xattr -dr com.apple.quarantine …`** — Claudesk is unsigned, so macOS quarantines it and Gatekeeper blocks it at launch. This clears the flag once. (Homebrew 6.x removed the old `--no-quarantine` install flag, so this manual step is the reliable path.)
+
+## Why the `xattr` step?
 
 Claudesk v1 is an **unsigned** build (no Apple Developer ID / no notarization yet). macOS attaches a quarantine attribute to anything downloaded, and Gatekeeper blocks unsigned apps **at launch** — so without clearing it you'd get *"Claudesk can't be opened because Apple cannot check it for malicious software."*
-
-`brew install --cask --no-quarantine claudesk` tells Homebrew not to attach the quarantine flag in the first place, so the app launches normally.
-
-If you already installed **without** `--no-quarantine`, clear it once by hand:
 
 ```sh
 xattr -dr com.apple.quarantine /Applications/Claudesk.app
 ```
 
-Re-run that after each `brew upgrade claudesk` — quarantine re-attaches to the new bundle.
+clears that flag, and the app launches normally. (Homebrew used to offer a `--no-quarantine` install flag that avoided this, but Homebrew 6.x removed it — so this one-line step is the reliable path.)
+
+Re-run it after each `brew upgrade claudesk` — quarantine re-attaches to the new bundle.
 
 ## Updating
 
 ```sh
 brew update
-brew upgrade --cask --no-quarantine claudesk
+brew upgrade --cask claudesk
+xattr -dr com.apple.quarantine /Applications/Claudesk.app
 ```
 
 ## Uninstall
