@@ -7,6 +7,11 @@ cask "claudesk" do
   desc "Lite-IDE for the Claude Code + Sublime workflow with virtual workspaces"
   homepage "https://github.com/StaymanHou/Claudesk"
 
+  # Claudesk updates itself in-app (built-in updater, M10). Declaring auto_updates
+  # tells Homebrew the app manages its own version, so a later `brew upgrade` reconciles
+  # against the running bundle's Info.plist (CFBundleVersion) instead of downgrading a
+  # self-updated app back to the cask's pinned version.
+  auto_updates true
   # Apple Silicon only — the release ships an aarch64 .dmg.
   depends_on arch: :arm64
   depends_on macos: :big_sur
@@ -31,7 +36,8 @@ cask "claudesk" do
 
       xattr -dr com.apple.quarantine "#{appdir}/Claudesk.app"
 
-    (Re-run that after each `brew upgrade` — quarantine re-attaches to the new bundle.)
+    (Claudesk self-updates in-app after that — its updater clears quarantine on the new
+    bundle itself. Re-run the command only if you `brew upgrade` to a newer cask build.)
 
     Claudesk also requires the `claude` (Claude Code) CLI installed and authenticated,
     and Sublime Text / Sublime Merge for the in-app launcher buttons.
