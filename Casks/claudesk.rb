@@ -1,6 +1,6 @@
 cask "claudesk" do
-  version "0.5.1"
-  sha256 "cdc16703013cf97e7e3eb418a81f4c6213cbb27d3f4588ffb1df03272cfda9f0"
+  version "0.5.2"
+  sha256 "de883781fed77ad65c0b5cd5f8a466d96d3bb2f39f676d5f0ac315f72cc78393"
 
   url "https://github.com/StaymanHou/Claudesk/releases/download/v#{version}/Claudesk_#{version}_aarch64.dmg"
   name "Claudesk"
@@ -18,10 +18,10 @@ cask "claudesk" do
 
   app "Claudesk.app"
 
-  # This build is UNSIGNED (no Apple Developer ID / no notarization yet).
-  # macOS attaches a quarantine xattr that Gatekeeper blocks at launch.
-  # Homebrew 6.x removed the `--no-quarantine` install flag, so the reliable
-  # path is to install normally then clear the flag once (see caveats below).
+  # Signed with a Developer ID certificate and notarized by Apple (v0.5.2+, M14 WP2).
+  # The .dmg carries a stapled notarization ticket, so Gatekeeper admits it with no
+  # quarantine workaround — no `xattr` step, and no need for the `--no-quarantine`
+  # install flag Homebrew 6.x removed.
 
   zap trash: [
     "~/Library/Application Support/com.claudesk.app",
@@ -31,15 +31,9 @@ cask "claudesk" do
   ]
 
   caveats <<~EOS
-    Claudesk is an UNSIGNED build, so macOS Gatekeeper will block it on first launch.
-    Clear the quarantine flag once:
-
-      xattr -dr com.apple.quarantine "#{appdir}/Claudesk.app"
-
-    (Claudesk self-updates in-app after that — its updater clears quarantine on the new
-    bundle itself. Re-run the command only if you `brew upgrade` to a newer cask build.)
-
-    Claudesk also requires the `claude` (Claude Code) CLI installed and authenticated,
+    Claudesk requires the `claude` (Claude Code) CLI installed and authenticated,
     and Sublime Text / Sublime Merge for the in-app launcher buttons.
+
+    Claudesk self-updates in-app; `brew upgrade` also works.
   EOS
 end
