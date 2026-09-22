@@ -1,6 +1,6 @@
 cask "claudesk" do
-  version "0.5.2"
-  sha256 "de883781fed77ad65c0b5cd5f8a466d96d3bb2f39f676d5f0ac315f72cc78393"
+  version "0.6.0"
+  sha256 "778b28f43f376cac99ab0bcf4c6602ff1cf6099b9e5e8611e72354cb2f1e1fa4"
 
   url "https://github.com/StaymanHou/Claudesk/releases/download/v#{version}/Claudesk_#{version}_aarch64.dmg"
   name "Claudesk"
