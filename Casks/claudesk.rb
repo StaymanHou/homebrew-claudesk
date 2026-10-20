@@ -1,6 +1,6 @@
 cask "claudesk" do
-  version "0.7.1"
-  sha256 "ba55ab2f6df11c478a543bcc77de6b62e5d23d613c401fcb46e198a84efec6ad"
+  version "0.8.0"
+  sha256 "5ea0b9005e479028dc9743541bddd0368c653934490e4007dea5ad1e52c2f501"
 
   url "https://github.com/StaymanHou/Claudesk/releases/download/v#{version}/Claudesk_#{version}_aarch64.dmg"
   name "Claudesk"
@@ -14,7 +14,7 @@ cask "claudesk" do
   auto_updates true
   # Apple Silicon only — the release ships an aarch64 .dmg.
   depends_on arch: :arm64
-  depends_on macos: :big_sur
+  depends_on :macos
 
   app "Claudesk.app"
 
